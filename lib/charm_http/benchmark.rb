@@ -37,7 +37,7 @@ class CharmHttp
             end
 
             reset(instances)
-            sleep(timeout)
+            #sleep(timeout)
           end
         end
 
