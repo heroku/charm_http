@@ -53,7 +53,20 @@ class CharmHttp
 
     def self.test(instances, hostname, concurrency, seconds, buckets)
       results = Hash.new(0)
-      CharmHttp.parallel_ssh(instances, "hummingbird/hstress -c #{concurrency / instances.size} -r #{KEEPALIVE} -b #{buckets} -i 1 #{hostname} 80", seconds).each do |value|
+      port = 80
+      host_hdr = hostname
+      if hostname =~ /(.*):(\d+)\+(.*)/ then
+        hostname = $1
+        port = $2
+        host_hdr = $3
+      elsif hostname =~ /(.*):(\d+)/ then
+        hostname = $1
+        host_hdr = $1
+        port = $2
+      end
+
+#      puts "Testing #{hostname} (#{host_hdr}) on #{port}"
+      CharmHttp.parallel_ssh(instances, "hummingbird/hstress -c #{concurrency / instances.size} -r #{KEEPALIVE} -b #{buckets} -i 1 -H #{host_hdr} #{hostname} #{port}", seconds).each do |value|
         if value =~ /(Assertion.*?failed)/
           raise HstressError, $1
         end
