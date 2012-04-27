@@ -69,7 +69,8 @@ class CharmHttp
     end
 
     def self.scale(appname, dynos)
-      CharmHttp.run("heroku restart --app #{appname} && heroku ps:scale web=#{dynos} --app #{appname}")
+      #CharmHttp.run("heroku restart --app #{appname} && heroku ps:scale web=#{dynos} --app #{appname}")
+      CharmHttp.run("heroku ps:scale web=#{dynos} --app #{appname}")
     end
 
   end
