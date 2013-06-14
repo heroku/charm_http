@@ -15,7 +15,7 @@ class CharmHttp
           Setup.stop
         when "benchmark"
           puts "Usage: charm #{benchmark_usage}" and exit(1) if !args[1]
-          Benchmark.run(args[0], args[1], (args[2] || 1).to_i, (args[3] || 10).to_i, (args[4] || 180).to_i, (args[6] || 60).to_i, (args[7] || 100).to_i, (args[8] || 3).to_i, args[9] || "1,5,10,50,100,500,1000")
+          Benchmark.run(args[0], args[1], (args[2] || 1).to_i, (args[3] || 10).to_i, (args[4] || 180).to_i, (args[5] || 60).to_i, (args[6] || 100).to_i, (args[7] || 3).to_i, args[8] || "1,5,10,50,100,500,1000")
         when "graph"
           Graph.graph(args[0] || Dir["*.data"].max_by {|f| File.mtime(f)})
         when "combine"
