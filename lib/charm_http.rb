@@ -47,7 +47,7 @@ class CharmHttp
   end
   C[:security_groups] = group
 
-  C[:image] = C[:ec2].images["ami-1a837773"]
+  C[:image] = C[:ec2].images["ami-59077030"]
   C[:instance_type] = "m1.small"
 
   def self.run(command)
