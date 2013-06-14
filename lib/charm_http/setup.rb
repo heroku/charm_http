@@ -29,7 +29,7 @@ class CharmHttp
 
       [
       "yes | sudo apt-get install make gcc git libevent-dev",
-      "git clone https://github.com/evan/hummingbird.git || (cd hummingbird && git pull)",
+      "git clone https://github.com/archaelus/hummingbird.git || (cd hummingbird && git pull)",
       "cd hummingbird && make hstress"
       ].each do |command|
         CharmHttp.parallel_ssh(instances, command)
