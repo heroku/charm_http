@@ -47,7 +47,8 @@ class CharmHttp
   end
   C[:security_groups] = group
 
-  C[:image] = C[:ec2].images["ami-59077030"]
+  # ubuntu 12.04 us-east-1 64-bit instance-store
+  C[:image] = C[:ec2].images["ami-41047328"]
   C[:instance_type] = "m1.small"
 
   def self.run(command)
@@ -72,7 +73,7 @@ class CharmHttp
 
   def self.ssh(instance, original_command, timeout = nil)
     command = original_command
-    command = "timeout -s INT #{timeout} #{command} || true" if timeout
+    command = "timeout -2 #{timeout} #{command} || true" if timeout
     command = "ssh -i #{C[:key_file]} -o 'StrictHostKeyChecking no' ubuntu@#{instance.public_dns_name} '#{command}' 2>&1"
     LOG.puts "#{instance.public_dns_name}: #{command}"
     response = `#{command}`

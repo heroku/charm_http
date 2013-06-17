@@ -29,7 +29,8 @@ class CharmHttp
       end
 
       [
-      "yes | sudo apt-get install make gcc git-core libevent-dev",
+      "sudo apt-get update",
+      "yes | sudo apt-get install make gcc git-core timeout libevent-dev",
       "git clone https://github.com/archaelus/hummingbird.git || (cd hummingbird && git pull)",
       "cd hummingbird && make hstress"
       ].each do |command|
