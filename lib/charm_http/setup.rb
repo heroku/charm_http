@@ -1,3 +1,4 @@
+require 'active_support/core_ext/hash/slice'
 
 class CharmHttp
   class Setup
