@@ -24,7 +24,7 @@ class CharmHttp
 
     def make_data
       Dir.mkdir("tmp") rescue nil
-      File.open("tmp/data.ssv", "w") do |ssv|
+      File.open("tmp/data-reqs.ssv", "w") do |ssv|
         ssv.puts "#{@filename} #{@headers.join(' ')}"
         @x.each do |x|
           ssv.write "#{@data[@headers.first][@workers][x].keys.first} "
@@ -46,11 +46,11 @@ class CharmHttp
         end
       end
 
-      puts File.read("tmp/data.ssv")
+      puts File.read("tmp/data-reqs.ssv")
     end
 
     def make_chart
-      system("R --vanilla < #{LIB}/charm_http/graph.r")
+      system("R --vanilla < #{LIB}/charm_http/graph-reqs.r")
     end
   end
 end

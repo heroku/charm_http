@@ -1,6 +1,6 @@
 
 # Load data
-data = read.table('tmp/data.ssv', header=T, sep=" ")
+data = read.table('tmp/data-reqs.ssv', header=T, sep=" ")
 nservices = ncol(data) - 1
 nrows = nrow(data)
 
