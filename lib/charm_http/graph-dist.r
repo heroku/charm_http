@@ -1,11 +1,21 @@
-# load qcc package
-library(ggplot2)
-require(scales)
+# load scales package
+library(scales)
+
+# try to load ggplot2
+mod <- try(
+  library(ggplot2, "logical.return" = TRUE)
+)
+# install ggplot2 if loading it failed
+if(!mod) {
+  ">> INSTALLING ggplot2 PACKAGE"
+  install.packages(c("ggplot2"), repos='http://cran.cnr.berkeley.edu')
+  library(ggplot2)
+}
 
 # Parse args
 args <- commandArgs(TRUE)
 if(length(args) != 1 || is.na(args[1])) {
-  "ERROR: Missing output filename"
+  ">> ERROR: Missing output filename"
   q(status=1)
 } else {
   outputfile = args[1]
