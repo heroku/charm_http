@@ -81,8 +81,9 @@ class CharmHttp
       @concurrencies.each do |c|
         make_dist_data(c)
         num_dynos = @data[@headers.first][@workers][c].keys.first
-        output = "#{@filename}.dist.#{num_dynos.to_s.rjust(2, '0')}.dynos.c#{c}.png"
-        system("R --vanilla < #{LIB}/charm_http/graph-dist.r --args #{output}")
+        title = "Response Time Distribution: #{num_dynos} dynos, #{c} conns"
+        output = "#{@filename}.dist.#{num_dynos.to_s.rjust(2, '0')}.dynos.png"
+        system("R --vanilla < #{LIB}/charm_http/graph-dist.r --args #{output} \"#{title}\"")
       end
     end
 

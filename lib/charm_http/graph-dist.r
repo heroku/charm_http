@@ -14,7 +14,7 @@ if(!mod) {
 
 # Parse args
 args <- commandArgs(TRUE)
-if(length(args) != 1 || is.na(args[1])) {
+if(is.na(args[1])) {
   ">> ERROR: Missing output filename"
   q(status=1)
 } else {
@@ -39,6 +39,12 @@ bar_chart <- ggplot(data, aes(x=buckets, y=percent), colour="blue") +
   xlab("Response Time (ms)") +
   ylab("Percent") +
   scale_y_continuous(labels = percent_format(), limits=c(0,1))
+
+if(is.na(args[2])) {
+  bar_chart <- bar_chart + labs(title = "Response Time Distribution")
+} else {
+  bar_chart <- bar_chart + labs(title = args[2])
+}
 
 fortify_pareto_data <- function(data, xvar, yvar, sort = TRUE)
 {
