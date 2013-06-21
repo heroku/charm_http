@@ -1,16 +1,20 @@
-# load scales package
-library(scales)
-
-# try to load ggplot2
-mod <- try(
-  library(ggplot2, "logical.return" = TRUE)
-)
-# install ggplot2 if loading it failed
-if(!mod) {
-  ">> INSTALLING ggplot2 PACKAGE"
-  install.packages(c("ggplot2"), repos='http://cran.cnr.berkeley.edu')
-  library(ggplot2)
+try_install <- function(package_names)
+{
+  for(n in package_names)
+  {
+    success = library(n, "logical.return" = TRUE, "character.only" = TRUE)
+    if(!success)
+    {
+      paste(">> INSTALLING", n, "PACKAGE", " ")
+      install.packages(n, repos='http://cran.cnr.berkeley.edu')
+      library(n, "character.only" = TRUE)
+    }
+  }
 }
+
+# load required packages
+try_install(c("scales", "ggplot2", "RColorBrewer"))
+library("RColorBrewer")
 
 # Parse args
 args <- commandArgs(TRUE)
@@ -31,11 +35,14 @@ data$buckets <- with(data, reorder(buckets, order))
 
 # Set up plot
 png(outputfile, width=8, height=6, units = 'in', res=150)
-# colors = rainbow(nservices)
+
+# Set up colors
+cols = brewer.pal(9, 'Set1')
 
 # Add bars
-bar_chart <- ggplot(data, aes(x=buckets, y=percent), colour="blue") +
-  geom_bar() +
+bar_chart <- ggplot(data, aes(x=buckets, y=percent, color=cols[2], fill=cols[2])) +
+  theme_bw() +
+  geom_bar(stat="identity") +
   xlab("Response Time (ms)") +
   ylab("Percent") +
   scale_y_continuous(labels = percent_format(), limits=c(0,1))
@@ -72,7 +79,9 @@ fortify_pareto_data <- function(data, xvar, yvar, sort = TRUE)
 fortified_data <- fortify_pareto_data(data, "buckets", "percent", sort=FALSE)
 
 pareto_plot <- bar_chart %+% fortified_data +
-    geom_line(aes(.numeric.x, .cumulative.y)) +
+    geom_line(aes(.numeric.x, .cumulative.y, colour=cols[1])) +
     ylab("Cumulative Percentage") +
+    scale_fill_identity() +
+    scale_color_identity() +
     scale_y_continuous(labels = percent_format(), limits=c(0,1))
 pareto_plot
